@@ -5,7 +5,7 @@ class NotesController {
         const{ title, description, tags, links } = request.body;
         const user_id = request.user.id;
 
-        const note_id = await knex("notes").insert({
+        const [note_id] = await knex("notes").insert({
             title,
             description,
             user_id
@@ -80,13 +80,13 @@ class NotesController {
 
     const userTags = await knex("tags").where({ user_id });
     const notesWithTags = notes.map(note => {
-        const noteTags = userTags.filter(tag => tag.note_id === note.id);
+        const noteTags = userTags.filter(item => item.note_id === note.id);
 
         return {
             ...note,
             tags: noteTags
         }
-    })
+    });
 
     return response.json(notesWithTags);
     }

@@ -25,7 +25,7 @@ app.use((error, request, response, next) => {
             message: error.message
         })
     }
-    console.log(error)
+    console.error(error);
 
     return response.status(500).json({
         status: "error",
